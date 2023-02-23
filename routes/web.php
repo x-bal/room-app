@@ -29,11 +29,4 @@ Route::middleware('auth')->group(function () {
 
     Route::get('users/get', [UserController::class, 'get'])->name('users.list');
     Route::resource('users', UserController::class);
-
-    Route::get('tickets/get', [TicketController::class, 'get'])->name('tickets.list');
-    Route::resource('tickets', TicketController::class);
-
-    Route::get('transactions/get', [TransactionController::class, 'get'])->name('transactions.list');
-    Route::resource('transactions', TransactionController::class);
 });
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

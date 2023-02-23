@@ -20,12 +20,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/transactions/no-trx', [TransactionController::class, 'getNoTrx']);
-Route::get('ticket/{ticket}/individu-check', [TransactionController::class, 'checkIndividualTicket']);
-Route::get('ticket/{ticket}/group-check', [TransactionController::class, 'checkGroupTicket']);
-Route::get('ticket/code', [TicketController::class, 'getCode']);
-Route::get('ticket/{id}/printQR', [TicketController::class, 'printQR']);
-Route::get('ticket/print-qr/{type}/{print}', TicketController::class, 'print_qr');
-Route::get('ticket/group', [TicketController::class, 'detailGroup']);
-Route::get('ticket/group-last', [TicketController::class, 'detailGroupLast']);
