@@ -28,7 +28,7 @@
     <div id="app" class="app app-header-fixed app-sidebar-fixed">
         <div id="header" class="app-header">
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand"><span class="navbar-logo"><i class="ion-ios-browsers"></i></span> <b class="me-1">E</b> Ticket</a>
+                <a href="index.html" class="navbar-brand"><span class="navbar-logo"><i class="ion-ios-browsers"></i></span> <b class="me-1">{{ config('app.name') }}</b></a>
                 <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -116,12 +116,6 @@
                             <div class="menu-item">
                                 <a href="{{ route('users.index') }}" class="menu-link">
                                     <div class="menu-text">Data User</div>
-                                </a>
-                                <a href="{{ route('tickets.index') }}" class="menu-link">
-                                    <div class="menu-text">Data Ticket</div>
-                                </a>
-                                <a href="{{ route('transactions.index') }}" class="menu-link">
-                                    <div class="menu-text">Data Transaction</div>
                                 </a>
                             </div>
                         </div>
