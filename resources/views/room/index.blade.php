@@ -20,15 +20,17 @@
     <!-- END panel-heading -->
     <!-- BEGIN panel-body -->
     <div class="panel-body">
-        <a href="#modal-dialog" id="btn-add" class="btn btn-primary mb-3" data-route="{{ route('users.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add User</a>
+        <a href="#modal-dialog" id="btn-add" class="btn btn-primary mb-3" data-route="{{ route('room.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Room</a>
 
         <table id="datatable" class="table table-striped table-bordered align-middle">
             <thead>
                 <tr>
                     <th class="text-nowrap">No</th>
-                    <th class="text-nowrap">Username</th>
-                    <th class="text-nowrap">Name</th>
-                    <th class="text-nowrap">Level</th>
+                    <th class="text-nowrap">Room Name</th>
+                    <th class="text-nowrap">Room Type</th>
+                    <th class="text-nowrap">Area</th>
+                    <th class="text-nowrap">Facility</th>
+                    <th class="text-nowrap">Price</th>
                     <th class="text-nowrap">Action</th>
                 </tr>
             </thead>
@@ -41,49 +43,59 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Form User</h4>
+                <h4 class="modal-title">Form Room</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form action="" method="post" id="form-user">
+            <form action="" method="post" id="form-room">
                 @csrf
 
                 <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="">
+                        <label for="room_name">Room Name</label>
+                        <input type="text" name="room_name" id="room_name" class="form-control" value="">
 
-                        @error('username')
+                        @error('room_name')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control" value="">
-
-                        @error('name')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" value="">
-
-                        @error('password')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="level">level</label>
-                        <select name="level" id="level" class="form-control">
-                            <option disabled selected>-- Pilih Level --</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
+                        <label for="room_type">room_type</label>
+                        <select name="room_type" id="room_type" class="form-control">
+                            <option disabled selected>-- Pilih Room Type --</option>
+                            @foreach($roomtype as $type)
+                            <option value="{{ $type->id }}">{{ $type->room_type }}</option>
+                            @endforeach
                         </select>
 
-                        @error('level')
+                        @error('room_type')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="area">Area</label>
+                        <input type="text" name="area" id="area" class="form-control" value="">
+
+                        @error('area')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="facility">Facility</label>
+                        <textarea name="facility" id="facility" cols="30" rows="4" class="form-control"></textarea>
+
+                        @error('facility')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="price">Price</label>
+                        <input type="number" name="price" id="price" class="form-control" value="">
+
+                        @error('price')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -116,7 +128,7 @@
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ route('users.list') }}",
+        ajax: "{{ route('room.list') }}",
         deferRender: true,
         pagination: true,
         columns: [{
@@ -124,16 +136,24 @@
                 name: 'DT_RowIndex'
             },
             {
-                data: 'username',
-                name: 'username'
+                data: 'room_name',
+                name: 'room_name'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'room_type',
+                name: 'room_type'
             },
             {
-                data: 'level',
-                name: 'level'
+                data: 'area',
+                name: 'area'
+            },
+            {
+                data: 'facility',
+                name: 'facility'
+            },
+            {
+                data: 'price',
+                name: 'price'
             },
             {
                 data: 'action',
@@ -144,30 +164,32 @@
 
     $("#btn-add").on('click', function() {
         let route = $(this).attr('data-route')
-        $("#form-user").attr('action', route)
+        $("#form-room").attr('action', route)
     })
 
     $("#btn-close").on('click', function() {
-        $("#form-user").removeAttr('action')
+        $("#form-room").removeAttr('action')
     })
 
     $("#datatable").on('click', '.btn-edit', function() {
         let route = $(this).attr('data-route')
         let id = $(this).attr('id')
 
-        $("#form-user").attr('action', route)
-        $("#form-user").append(`<input type="hidden" name="_method" value="PUT">`);
+        $("#form-room").attr('action', route)
+        $("#form-room").append(`<input type="hidden" name="_method" value="PUT">`);
 
         $.ajax({
-            url: "/users/" + id,
+            url: "/room/" + id,
             type: 'GET',
             method: 'GET',
             success: function(response) {
-                let user = response.user;
+                let room = response.room;
 
-                $("#name").val(user.name)
-                $("#username").val(user.username)
-                $("#level").val(user.level)
+                $("#room_name").val(room.room_name)
+                $("#room_type").val(room.room_type_id)
+                $("#area").val(room.area)
+                $("#facility").val(room.facility)
+                $("#price").val(room.price)
             }
         })
     })
@@ -178,8 +200,8 @@
         $("#form-delete").attr('action', route)
 
         swal({
-            title: 'Hapus data user?',
-            text: 'Menghapus user bersifat permanen.',
+            title: 'Hapus data room?',
+            text: 'Menghapus room bersifat permanen.',
             icon: 'error',
             buttons: {
                 cancel: {

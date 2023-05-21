@@ -30,7 +30,7 @@
             <div class="news-feed">
                 <div class="news-image" style="background-image: url({{ asset('/') }}img/login-bg/login-bg-11.jpg)"></div>
                 <div class="news-caption">
-                    <h4 class="caption-title"><b>Faceid</b> App</h4>
+                    <h4 class="caption-title"><b>Room</b> App</h4>
                     <p>
                         Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     </p>
@@ -47,7 +47,7 @@
                             <span class="logo"><i class="ion-ios-cloud"></i></span>
 
 
-                            <b>Faceid</b> App
+                            <b>Room</b> App
                         </div>
                         <small>Login dengan akun anda.</small>
                     </div>
@@ -84,7 +84,7 @@
                         </div>
                         <hr class="bg-gray-600 opacity-2" />
                         <div class="text-gray-600 text-center text-gray-500-darker mb-0">
-                            &copy; Faceid App All Right Reserved 2023
+                            &copy; Room App All Right Reserved 2023
                         </div>
                     </form>
                 </div>

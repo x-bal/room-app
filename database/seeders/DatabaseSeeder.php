@@ -15,9 +15,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'username' => 'developer',
+            'username' => 'admin',
             'password' => bcrypt('secret'),
-            'name' => 'Developer'
+            'name' => 'Admin Room',
+            'level' => 'admin'
+        ]);
+
+        $this->call([
+            ExtraChangeSeeder::class
         ]);
         // \App\Models\User::factory(500)->create();
     }

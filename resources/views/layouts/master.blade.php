@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <!-- ================== BEGIN core-css ================== -->
     <link href="{{ asset('/') }}css/vendor.min.css" rel="stylesheet" />
@@ -104,7 +105,16 @@
                     </div>
 
                     <div class="menu-header">Navigation</div>
-                    <div class="menu-item has-sub active">
+                    <div class="menu-item {{ request()->is('dashboard*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard') }}" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="ion-ios-nutrition bg-blue"></i>
+                            </div>
+                            <div class="menu-text">Dashboard</div>
+                        </a>
+                    </div>
+                    @if(auth()->user()->level == 'admin')
+                    <div class="menu-item has-sub {{ request()->is('users*') || request()->is('type-room*') || request()->is('room*') || request()->is('extra-change*') ? 'active' : '' }}">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="ion-ios-pulse"></i>
@@ -113,22 +123,48 @@
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu">
-                            <div class="menu-item">
+                            <div class="menu-item {{ request()->is('users*') ? 'active' : '' }}">
                                 <a href="{{ route('users.index') }}" class="menu-link">
                                     <div class="menu-text">Data User</div>
+                                </a>
+                            </div>
+                            <div class="menu-item {{ request()->is('type-room*') ? 'active' : '' }}">
+                                <a href="{{ route('type-room.index') }}" class="menu-link">
+                                    <div class="menu-text">Room Type</div>
+                                </a>
+                            </div>
+                            <div class="menu-item {{ request()->is('room*') ? 'active' : '' }}">
+                                <a href="{{ route('room.index') }}" class="menu-link">
+                                    <div class="menu-text">Room</div>
+                                </a>
+                            </div>
+                            <div class="menu-item {{ request()->is('extra-change*') ? 'active' : '' }}">
+                                <a href="{{ route('extra-change.index') }}" class="menu-link">
+                                    <div class="menu-text">Extra Change</div>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="menu-item">
-                        <a href="widget.html" class="menu-link">
+                    <div class="menu-item {{ request()->is('transaction*') ? 'active' : '' }}">
+                        <a href="{{ route('transaction.index') }}" class="menu-link">
                             <div class="menu-icon">
                                 <i class="ion-ios-nutrition bg-blue"></i>
                             </div>
-                            <div class="menu-text">Widgets <span class="menu-label">NEW</span></div>
+                            <div class="menu-text">Transaction</div>
                         </a>
                     </div>
+                    @else
+
+                    <div class="menu-item {{ request()->is('transaction*') ? 'active' : '' }}">
+                        <a href="{{ route('transaction.index') }}" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="ion-ios-nutrition bg-blue"></i>
+                            </div>
+                            <div class="menu-text">Order Room</div>
+                        </a>
+                    </div>
+                    @endif
 
                     <div class="menu-item d-flex">
                         <a href="javascript:;" class="app-sidebar-minify-btn ms-auto" data-toggle="app-sidebar-minify"><i class="ion-ios-arrow-back"></i>
@@ -173,6 +209,13 @@
     <script src="{{ asset('/') }}js/demo/dashboard-v2.js"></script>
     <!-- ================== END page-js ================== -->
 
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
     @stack('script')
 </body>
 

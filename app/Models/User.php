@@ -17,5 +17,6 @@ class User extends Authenticatable
         'username',
         'password',
         'foto',
+        'level'
     ];
 }

@@ -20,15 +20,13 @@
     <!-- END panel-heading -->
     <!-- BEGIN panel-body -->
     <div class="panel-body">
-        <a href="#modal-dialog" id="btn-add" class="btn btn-primary mb-3" data-route="{{ route('users.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add User</a>
+        <a href="#modal-dialog" id="btn-add" class="btn btn-primary mb-3" data-route="{{ route('type-room.store') }}" data-bs-toggle="modal"><i class="ion-ios-add"></i> Add Room Type</a>
 
         <table id="datatable" class="table table-striped table-bordered align-middle">
             <thead>
                 <tr>
                     <th class="text-nowrap">No</th>
-                    <th class="text-nowrap">Username</th>
-                    <th class="text-nowrap">Name</th>
-                    <th class="text-nowrap">Level</th>
+                    <th class="text-nowrap">Room Type</th>
                     <th class="text-nowrap">Action</th>
                 </tr>
             </thead>
@@ -41,49 +39,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Form User</h4>
+                <h4 class="modal-title">Form Room Type</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <form action="" method="post" id="form-user">
+            <form action="" method="post" id="form-room-type">
                 @csrf
 
                 <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="">
+                        <label for="room_type">Room Type</label>
+                        <input type="text" name="room_type" id="room_type" class="form-control" value="">
 
-                        @error('username')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control" value="">
-
-                        @error('name')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" value="">
-
-                        @error('password')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="level">level</label>
-                        <select name="level" id="level" class="form-control">
-                            <option disabled selected>-- Pilih Level --</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
-                        </select>
-
-                        @error('level')
+                        @error('room_type')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -116,7 +83,7 @@
         processing: true,
         serverSide: true,
         responsive: true,
-        ajax: "{{ route('users.list') }}",
+        ajax: "{{ route('type-room.list') }}",
         deferRender: true,
         pagination: true,
         columns: [{
@@ -124,16 +91,8 @@
                 name: 'DT_RowIndex'
             },
             {
-                data: 'username',
-                name: 'username'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'level',
-                name: 'level'
+                data: 'room_type',
+                name: 'room_type'
             },
             {
                 data: 'action',
@@ -144,30 +103,28 @@
 
     $("#btn-add").on('click', function() {
         let route = $(this).attr('data-route')
-        $("#form-user").attr('action', route)
+        $("#form-room-type").attr('action', route)
     })
 
     $("#btn-close").on('click', function() {
-        $("#form-user").removeAttr('action')
+        $("#form-room-type").removeAttr('action')
     })
 
     $("#datatable").on('click', '.btn-edit', function() {
         let route = $(this).attr('data-route')
         let id = $(this).attr('id')
 
-        $("#form-user").attr('action', route)
-        $("#form-user").append(`<input type="hidden" name="_method" value="PUT">`);
+        $("#form-room-type").attr('action', route)
+        $("#form-room-type").append(`<input type="hidden" name="_method" value="PUT">`);
 
         $.ajax({
-            url: "/users/" + id,
+            url: "/type-room/" + id,
             type: 'GET',
             method: 'GET',
             success: function(response) {
-                let user = response.user;
+                let roomtype = response.roomtype;
 
-                $("#name").val(user.name)
-                $("#username").val(user.username)
-                $("#level").val(user.level)
+                $("#room_type").val(roomtype.room_type)
             }
         })
     })
@@ -178,8 +135,8 @@
         $("#form-delete").attr('action', route)
 
         swal({
-            title: 'Hapus data user?',
-            text: 'Menghapus user bersifat permanen.',
+            title: 'Hapus data room type?',
+            text: 'Menghapus room type bersifat permanen.',
             icon: 'error',
             buttons: {
                 cancel: {
